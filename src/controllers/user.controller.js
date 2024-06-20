@@ -134,8 +134,8 @@ export const loginUser = asyncHandler(async (req, res) => {
 export const logoutUser = asyncHandler(async (req, res) => {
     // console.log(req.user);
     await User.findByIdAndUpdate(req.user._id, {
-        $set: {
-            refreshToken: undefined
+        $unset: {
+            refreshToken: 1
         }
     }, { new: true })
 
@@ -224,6 +224,8 @@ export const updateAccountDetails = asyncHandler(async (req, res) => {
 })
 
 export const updateAvatar = asyncHandler(async (req, res) => {
+
+    console.log(req.file);
     const avatarLocalPath = req.file?.path;
 
     if (!avatarLocalPath) {
